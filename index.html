@@ -428,28 +428,51 @@
 
         // 後端 API 調用函數
         async function callBackendAPI(endpoint, params = {}) {
-            const url = new URL(`${API_BASE_URL}${endpoint}`);
+            let url;
             
-            // 添加查詢參數
-            Object.keys(params).forEach(key => {
-                if (params[key]) {
-                    url.searchParams.set(key, params[key]);
+            if (window.location.hostname === 'localhost') {
+                // 開發環境：使用完整 URL
+                url = new URL(`${API_BASE_URL}${endpoint}`);
+                
+                // 添加查詢參數
+                Object.keys(params).forEach(key => {
+                    if (params[key]) {
+                        url.searchParams.set(key, params[key]);
+                    }
+                });
+                
+                const response = await fetch(url.toString());
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
-            });
-            
-            const response = await fetch(url.toString());
-            
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                
+                const data = await response.json();
+                
+                if (!data.success) {
+                    throw new Error(data.error || 'API 請求失敗');
+                }
+                
+                return data;
+            } else {
+                // Vercel 生產環境：使用相對路徑
+                const queryString = new URLSearchParams(params).toString();
+                const fullUrl = `${API_BASE_URL}${endpoint}${queryString ? '?' + queryString : ''}`;
+                
+                const response = await fetch(fullUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                if (!data.success) {
+                    throw new Error(data.error || 'API 請求失敗');
+                }
+                
+                return data;
             }
-            
-            const data = await response.json();
-            
-            if (!data.success) {
-                throw new Error(data.error || 'API 請求失敗');
-            }
-            
-            return data;
         }
 
         // 處理 API 錯誤
