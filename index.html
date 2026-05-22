@@ -194,7 +194,6 @@
             <div class="hidden md:flex gap-8">
                 <a class="font-label-caps text-label-caps text-on-surface hover:text-primary transition-colors duration-200" href="#home">首頁</a>
                 <a class="font-label-caps text-label-caps text-on-surface hover:text-primary transition-colors duration-200" href="#about">關於</a>
-                <a class="font-label-caps text-label-caps text-on-surface hover:text-primary transition-colors duration-200" href="#videos">影片</a>
                 <a class="font-label-caps text-label-caps text-on-surface hover:text-primary transition-colors duration-200" href="#contact">聯絡</a>
             </div>
             <button class="md:hidden p-2" onclick="toggleMobileMenu()">
@@ -206,15 +205,12 @@
         <!-- Mobile Menu -->
         <div id="mobileMenu" class="hidden md:hidden bg-surface border-t border-on-surface/10">
             <div class="px-margin-mobile py-4">
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-3 gap-4">
                     <a class="flex flex-col items-center justify-center p-4 bg-surface-container rounded-lg border border-on-surface/10 hover:bg-surface-container-low transition-colors text-center" href="#home" onclick="toggleMobileMenu()">
                         <span class="font-label-caps text-label-caps text-on-surface">首頁</span>
                     </a>
                     <a class="flex flex-col items-center justify-center p-4 bg-surface-container rounded-lg border border-on-surface/10 hover:bg-surface-container-low transition-colors text-center" href="#about" onclick="toggleMobileMenu()">
                         <span class="font-label-caps text-label-caps text-on-surface">關於</span>
-                    </a>
-                    <a class="flex flex-col items-center justify-center p-4 bg-surface-container rounded-lg border border-on-surface/10 hover:bg-surface-container-low transition-colors text-center" href="#videos" onclick="toggleMobileMenu()">
-                        <span class="font-label-caps text-label-caps text-on-surface">影片</span>
                     </a>
                     <a class="flex flex-col items-center justify-center p-4 bg-surface-container rounded-lg border border-on-surface/10 hover:bg-surface-container-low transition-colors text-center" href="#contact" onclick="toggleMobileMenu()">
                         <span class="font-label-caps text-label-caps text-on-surface">聯絡</span>
@@ -317,33 +313,7 @@
         </section>
 
         
-        <!-- Featured Videos Section -->
-        <section id="videos" class="py-24 border-t border-on-surface/10" style="scroll-margin-top: 80px;">
-            <div class="mb-12">
-                <p class="font-label-caps text-label-caps zun-red">精選影片</p>
-                <p class="font-body-sm text-body-sm text-on-surface-variant mt-2">最多顯示6部影片</p>
-            </div>
-            
-            <!-- Loading State -->
-            <div id="videosLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-                <div class="loading-skeleton h-48 rounded-lg"></div>
-                <div class="loading-skeleton h-48 rounded-lg"></div>
-                <div class="loading-skeleton h-48 rounded-lg"></div>
-            </div>
-            
-            <!-- Videos Grid -->
-            <div id="videosGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-                <!-- Videos will be dynamically loaded here -->
-            </div>
-            
-            <!-- Load More Button -->
-            <div class="text-center mt-12">
-                <button onclick="loadMoreVideos()" class="font-label-caps text-label-caps bg-zun-red text-white px-8 py-3 hover:bg-red-700 transition-colors">
-                    載入更多影片
-                </button>
-            </div>
-        </section>
-    </main>
+            </main>
 
     <!-- Contact Section -->
     <section id="contact" class="py-24 bg-surface" style="scroll-margin-top: 80px;">
