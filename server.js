@@ -6,7 +6,7 @@ const app = express();
 const PORT = 3000;
 
 // YouTube API 配置
-const YOUTUBE_API_KEY = 'AIzaSyAzT49Wae0ZuVfLc0XXoOsAaZ9coG8mx28';
+const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 const YOUTUBE_API_BASE = 'https://www.googleapis.com/youtube/v3';
 
 // 中間件
@@ -37,6 +37,11 @@ function categorizeVideo(title, description) {
 // API 路由：獲取影片
 app.get('/api/youtube/videos', async (req, res) => {
     try {
+        // 檢查 API Key
+        if (!YOUTUBE_API_KEY) {
+            throw new Error('YouTube API Key 未設置');
+        }
+        
         const { maxResults = 6 } = req.query;
         let allVideos = [];
         
