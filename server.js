@@ -37,8 +37,14 @@ function categorizeVideo(title, description) {
 // API 路由：獲取影片
 app.get('/api/youtube/videos', async (req, res) => {
     try {
+        // 調試日誌
+        console.log('Environment variables:', Object.keys(process.env));
+        console.log('YOUTUBE_API_KEY exists:', !!process.env.YOUTUBE_API_KEY);
+        console.log('YOUTUBE_API_KEY value:', process.env.YOUTUBE_API_KEY ? 'SET' : 'NOT SET');
+        
         // 檢查 API Key
         if (!YOUTUBE_API_KEY) {
+            console.error('YouTube API Key 未設置');
             throw new Error('YouTube API Key 未設置');
         }
         
