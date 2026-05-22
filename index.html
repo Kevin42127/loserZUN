@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-TW">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>人生肥宅x尊</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "on-secondary-container": "#b4b5b5",
+                        "error": "#ffb4ab",
+                        "surface-dim": "#131313",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary": "#c6c6c7",
+                        "surface-bright": "#393939",
+                        "inverse-on-surface": "#313030",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "surface-variant": "#353535",
+                        "on-primary-fixed-variant": "#930007",
+                        "on-tertiary-fixed": "#001b3f",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-surface": "#e5e2e1",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "tertiary-container": "#0070e0",
+                        "on-secondary-fixed-variant": "#454747",
+                        "on-error": "#690005",
+                        "primary-fixed": "#ffdad5",
+                        "surface-container-low": "#1c1b1b",
+                        "primary": "#ffb4aa",
+                        "surface-container-highest": "#353535",
+                        "error-container": "#93000a",
+                        "primary-container": "#e60012",
+                        "on-surface-variant": "#e9bcb6",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-background": "#e5e2e1",
+                        "tertiary": "#abc7ff",
+                        "on-primary-fixed": "#410001",
+                        "on-tertiary-container": "#f9f8ff",
+                        "surface-tint": "#ffb4aa",
+                        "outline-variant": "#5f3f3b",
+                        "inverse-primary": "#c0000d",
+                        "tertiary-fixed": "#d7e3ff",
+                        "surface": "#131313",
+                        "on-primary-container": "#fff7f6",
+                        "surface-container-high": "#2a2a2a",
+                        "outline": "#af8782",
+                        "background": "#131313",
+                        "on-secondary": "#2f3131",
+                        "surface-container": "#20201f",
+                        "tertiary-fixed-dim": "#abc7ff",
+                        "on-tertiary-fixed-variant": "#00458f",
+                        "on-primary": "#690003",
+                        "on-tertiary": "#002f65",
+                        "secondary-container": "#454747",
+                        "on-error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "margin-desktop": "64px",
+                        "container-max": "1200px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Newsreader"],
+                        "headline-md": ["Newsreader"],
+                        "headline-lg": ["Newsreader"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Newsreader"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                        "headline-lg": ["48px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "500"}]
+                    },
+                    "screens": {
+                        "xs": "640px",
+                        "sm": "768px", 
+                        "md": "1024px",
+                        "lg": "1280px",
+                        "xl": "1536px",
+                        "2xl": "1792px"
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body { background-color: #131313; color: #e5e2e1; }
+        .grid-line { background-color: rgba(255, 255, 255, 0.1); }
+        .zun-red { color: #e60012; }
+        .bg-zun-red { background-color: #e60012; }
+        .video-thumbnail { 
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .video-thumbnail:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(230, 0, 18, 0.3);
+        }
+        .loading-skeleton {
+            background: linear-gradient(90deg, #2a2a2a 25%, #353535 50%, #2a2a2a 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* Hero 區塊響應式優化 */
+        .hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (max-width: 640px) {
+            .hero-title {
+                font-size: clamp(2.5rem, 8vw, 4rem);
+                line-height: 0.9;
+            }
+        }
+        
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .hero-title {
+                font-size: clamp(4rem, 10vw, 6rem);
+                line-height: 0.95;
+            }
+        }
+        
+        @media (min-width: 1025px) and (max-width: 1535px) {
+            .hero-title {
+                font-size: clamp(6rem, 8vw, 10rem);
+                line-height: 0.95;
+            }
+        }
+        
+        @media (min-width: 1536px) {
+            .hero-title {
+                font-size: clamp(8rem, 6vw, 12rem);
+                line-height: 1;
+            }
+        }
+        
+        /* 平滑滾動優化 */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* 觸控設備優化 */
+        @media (hover: none) and (pointer: coarse) {
+            .video-thumbnail:active {
+                transform: scale(0.98);
+            }
+        }
+        
+        /* 自訂義文字選取樣式 */
+        ::selection {
+            background-color: #ffb4aa; /* primary */
+            color: #410001; /* on-primary */
+        }
+        
+        ::-moz-selection {
+            background-color: #ffb4aa; /* primary */
+            color: #410001; /* on-primary */
+        }
+            </style>
+</head>
+<body class="antialiased overflow-x-hidden">
+    <!-- TopNavBar -->
+    <header class="bg-surface border-b border-on-surface/10 sticky top-0 z-50">
+        <nav class="flex justify-between items-center px-margin-mobile md:px-8 lg:px-12 xl:px-16 py-6 w-full">
+            <a href="#home" class="font-headline-md text-headline-md text-on-surface tracking-tight hover:text-primary transition-colors duration-200">LOSERZUN</a>
+            <div class="hidden md:flex gap-8">
+                <a class="font-label-caps text-label-caps text-on-surface hover:text-primary transition-colors duration-200" href="#home">首頁</a>
+                <a class="font-label-caps text-label-caps text-on-surface hover:text-primary transition-colors duration-200" href="#about">關於</a>
+                <a class="font-label-caps text-label-caps text-on-surface hover:text-primary transition-colors duration-200" href="#videos">影片</a>
+                <a class="font-label-caps text-label-caps text-on-surface hover:text-primary transition-colors duration-200" href="#contact">聯絡</a>
+            </div>
+            <button class="md:hidden p-2" onclick="toggleMobileMenu()">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+                    <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/>
+                </svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-surface border-t border-on-surface/10">
+            <div class="px-margin-mobile py-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <a class="flex flex-col items-center justify-center p-4 bg-surface-container rounded-lg border border-on-surface/10 hover:bg-surface-container-low transition-colors text-center" href="#home" onclick="toggleMobileMenu()">
+                        <span class="font-label-caps text-label-caps text-on-surface">首頁</span>
+                    </a>
+                    <a class="flex flex-col items-center justify-center p-4 bg-surface-container rounded-lg border border-on-surface/10 hover:bg-surface-container-low transition-colors text-center" href="#about" onclick="toggleMobileMenu()">
+                        <span class="font-label-caps text-label-caps text-on-surface">關於</span>
+                    </a>
+                    <a class="flex flex-col items-center justify-center p-4 bg-surface-container rounded-lg border border-on-surface/10 hover:bg-surface-container-low transition-colors text-center" href="#videos" onclick="toggleMobileMenu()">
+                        <span class="font-label-caps text-label-caps text-on-surface">影片</span>
+                    </a>
+                    <a class="flex flex-col items-center justify-center p-4 bg-surface-container rounded-lg border border-on-surface/10 hover:bg-surface-container-low transition-colors text-center" href="#contact" onclick="toggleMobileMenu()">
+                        <span class="font-label-caps text-label-caps text-on-surface">聯絡</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+        <!-- Hero Section -->
+        <section id="home" class="hero-section min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20" style="scroll-margin-top: 80px;">
+            <div class="w-full flex justify-center items-center">
+                <h1 class="font-display-lg hero-title text-[60px] sm:text-[80px] md:text-[120px] lg:text-[160px] xl:text-[200px] 2xl:text-[240px] leading-none select-none">
+                    LOSERZUN<span class="zun-red">.</span>
+                </h1>
+            </div>
+        </section>
+
+        <!-- About Section: The Architecture -->
+        <section id="about" class="py-24 border-t border-on-surface/10" style="scroll-margin-top: 80px;">
+            <div class="mb-12">
+                <p class="font-label-caps text-label-caps zun-red mb-4">關於</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+                <div class="md:col-span-4 border-l border-on-surface/10 pl-6">
+                    <span class="font-label-caps text-label-caps zun-red block mb-2">01</span>
+                    <h3 class="font-headline-md text-headline-md mb-4 italic">宅宅身份</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant">
+                        居住在台灣的宅宅少年，因為興趣而開啟了拍影片的生活。真實的御宅族日常記錄。
+                    </p>
+                </div>
+                <div class="md:col-span-4 border-l border-on-surface/10 pl-6">
+                    <span class="font-label-caps text-label-caps zun-red block mb-2">02</span>
+                    <h3 class="font-headline-md text-headline-md mb-4 italic">創作理念</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant">
+                        堅持真實、理性、原創的內容創作。不迎合市場，不追求流量，只做想做的內容。
+                    </p>
+                </div>
+                <div class="md:col-span-4 border-l border-on-surface/10 pl-6">
+                    <span class="font-label-caps text-label-caps zun-red block mb-2">03</span>
+                    <h3 class="font-headline-md text-headline-md mb-4 italic">雙頻道經營</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant">
+                        主頻道專注高能內容，第二頻道分享日常影片。完整的創作生態系統。
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Brand Evolution Timeline -->
+            <div class="mt-24">
+                <div class="flex flex-col sm:flex-row justify-between gap-8 sm:gap-12">
+                    <div class="relative z-10 w-full sm:w-1/4 border-l border-on-surface/10 pl-6">
+                        <span class="font-label-caps text-label-caps zun-red block mb-2">01</span>
+                        <h4 class="font-label-caps text-label-caps mb-1">啟程階段</h4>
+                        <p class="font-headline-md text-headline-md mb-4 italic">興趣驅動</p>
+                        <p class="font-body-md text-body-md text-on-surface-variant">因為興趣開啟拍影片的生活，探索各種影片類型。</p>
+                    </div>
+                    <div class="relative z-10 w-full sm:w-1/4 border-l border-on-surface/10 pl-6">
+                        <span class="font-label-caps text-label-caps zun-red block mb-2">02</span>
+                        <h4 class="font-label-caps text-label-caps mb-1">探索階段</h4>
+                        <p class="font-headline-md text-headline-md mb-4 italic">內容多元</p>
+                        <p class="font-body-md text-body-md text-on-surface-variant">確立四大內容支柱：都市傳說、實驗、開箱、Vlog。</p>
+                    </div>
+                    <div class="relative z-10 w-full sm:w-1/4 border-l border-on-surface/10 pl-6">
+                        <span class="font-label-caps text-label-caps zun-red block mb-2">03</span>
+                        <h4 class="font-label-caps text-label-caps mb-1">擴展階段</h4>
+                        <p class="font-headline-md text-headline-md mb-4 italic">雙頻道營運</p>
+                        <p class="font-body-md text-body-md text-on-surface-variant">開設第二頻道，主頻道專注高能內容，第二頻道分享日常。</p>
+                    </div>
+                    <div class="relative z-10 w-full sm:w-1/4 border-l border-on-surface/10 pl-6">
+                        <span class="font-label-caps text-label-caps zun-red block mb-2">04</span>
+                        <h4 class="font-label-caps text-label-caps mb-1">成熟階段</h4>
+                        <p class="font-headline-md text-headline-md mb-4 italic">生態系統</p>
+                        <p class="font-body-md text-body-md text-on-surface-variant">建立完整創作生態，從高能實驗到日常廢文的全覆蓋內容。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Content Pillars -->
+            <div class="mt-24">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 border-r border-b border-on-surface/10">
+                    <div class="p-8 border-t border-l border-on-surface/10 hover:bg-surface-container-low transition-colors group">
+                        <h5 class="font-headline-md text-headline-md mb-6 group-hover:zun-red transition-colors">都市傳說</h5>
+                        <p class="font-body-md text-body-md text-on-surface-variant">探索台灣各地的神秘傳說與都市怪談，用理性角度分析超自然現象。</p>
+                    </div>
+                    <div class="p-8 border-t border-l border-on-surface/10 hover:bg-surface-container-low transition-colors group">
+                        <h5 class="font-headline-md text-headline-md mb-6 group-hover:zun-red transition-colors">實驗挑戰</h5>
+                        <p class="font-body-md text-body-md text-on-surface-variant">用科學精神驗證生活中的奇思妙想。</p>
+                    </div>
+                    <div class="p-8 border-t border-l border-on-surface/10 hover:bg-surface-container-low transition-colors group">
+                        <h5 class="font-headline-md text-headline-md mb-6 group-hover:zun-red transition-colors">PVC公仔開箱</h5>
+                        <p class="font-body-md text-body-md text-on-surface-variant">分享收藏的PVC公仔開箱，帶給你最日常的收藏家生活。</p>
+                    </div>
+                    <div class="p-8 border-t border-l border-on-surface/10 hover:bg-surface-container-low transition-colors group">
+                        <h5 class="font-headline-md text-headline-md mb-6 group-hover:zun-red transition-colors">日常Vlog</h5>
+                        <p class="font-body-md text-body-md text-on-surface-variant">記錄宅宅少年的日常生活，從廢文到真實，呈現最原創的生活樣貌。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <!-- Featured Videos Section -->
+        <section id="videos" class="py-24 border-t border-on-surface/10" style="scroll-margin-top: 80px;">
+            <div class="mb-12">
+                <p class="font-label-caps text-label-caps zun-red">精選影片</p>
+                <p class="font-body-sm text-body-sm text-on-surface-variant mt-2">最多顯示6部影片</p>
+            </div>
+            
+            <!-- Loading State -->
+            <div id="videosLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+                <div class="loading-skeleton h-48 rounded-lg"></div>
+                <div class="loading-skeleton h-48 rounded-lg"></div>
+                <div class="loading-skeleton h-48 rounded-lg"></div>
+            </div>
+            
+            <!-- Videos Grid -->
+            <div id="videosGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+                <!-- Videos will be dynamically loaded here -->
+            </div>
+            
+            <!-- Load More Button -->
+            <div class="text-center mt-12">
+                <button onclick="loadMoreVideos()" class="font-label-caps text-label-caps bg-zun-red text-white px-8 py-3 hover:bg-red-700 transition-colors">
+                    載入更多影片
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-surface" style="scroll-margin-top: 80px;">
+        <div class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+            <div class="text-center mb-16">
+                <p class="font-label-caps text-label-caps zun-red mb-4">保持聯絡</p>
+                <h2 class="font-headline-lg text-headline-lg mb-6">與人生肥宅x尊聯絡</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-12">
+                <div class="bg-surface-container p-8 rounded-lg border border-on-surface/10">
+                    <div class="mb-4">
+                        <h3 class="font-headline-md text-headline-md">電子郵件</h3>
+                    </div>
+                    <button onclick="openEmailClient()" class="w-full bg-zun-red text-white font-label-caps text-label-caps px-6 py-3 hover:bg-red-700 transition-colors">
+                        立即寫信
+                    </button>
+                </div>
+                
+                <div class="bg-surface-container p-8 rounded-lg border border-on-surface/10">
+                    <div class="mb-4">
+                        <h3 class="font-headline-md text-headline-md">YouTube 頻道</h3>
+                    </div>
+                    <div class="flex gap-4">
+                        <a href="https://www.youtube.com/@loserzun" target="_blank" class="flex-1 bg-surface text-on-surface font-label-caps text-label-caps px-4 py-3 border border-on-surface/10 hover:bg-surface-container-low transition-colors text-center">
+                            主頻道
+                        </a>
+                        <a href="https://www.youtube.com/@nerdzun" target="_blank" class="flex-1 bg-surface text-on-surface font-label-caps text-label-caps px-4 py-3 border border-on-surface/10 hover:bg-surface-container-low transition-colors text-center">
+                            第二頻道
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Social Links -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+                <div class="bg-surface-container p-8 rounded-lg border border-on-surface/10">
+                    <div class="mb-4">
+                        <h3 class="font-headline-md text-headline-md">Instagram</h3>
+                    </div>
+                    <a href="https://www.instagram.com/loserzun/?hl=zh-tw" target="_blank" class="w-full bg-surface text-on-surface font-label-caps text-label-caps px-4 py-3 border border-on-surface/10 hover:bg-surface-container-low transition-colors text-center block">
+                        前往 Instagram
+                    </a>
+                </div>
+                
+                <div class="bg-surface-container p-8 rounded-lg border border-on-surface/10">
+                    <div class="mb-4">
+                        <h3 class="font-headline-md text-headline-md">Facebook</h3>
+                    </div>
+                    <a href="https://www.facebook.com/loserZUN" target="_blank" class="w-full bg-surface text-on-surface font-label-caps text-label-caps px-4 py-3 border border-on-surface/10 hover:bg-surface-container-low transition-colors text-center block">
+                        前往 Facebook
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-surface border-t border-on-surface/10">
+        <div class="text-center py-8 w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+            <div class="font-label-caps text-label-caps text-on-surface">© 2026 loserZUN</div>
+        </div>
+    </footer>
+
+    
+    <script>
+        // 後端 API 配置
+        const API_BASE_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000/api' 
+            : '/api'; // Vercel 部署時使用相對路徑
+        
+        let videos = [];
+        let nextPageTokens = {}; // 每個頻道的分頁令牌
+        let currentVideoCount = 0;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadYouTubeVideos(); // 回到 YouTube Data API
+            setupScrollAnimations();
+            setupSmoothScroll();
+        });
+
+        // 後端 API 調用函數
+        async function callBackendAPI(endpoint, params = {}) {
+            const url = new URL(`${API_BASE_URL}${endpoint}`);
+            
+            // 添加查詢參數
+            Object.keys(params).forEach(key => {
+                if (params[key]) {
+                    url.searchParams.set(key, params[key]);
+                }
+            });
+            
+            const response = await fetch(url.toString());
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            const data = await response.json();
+            
+            if (!data.success) {
+                throw new Error(data.error || 'API 請求失敗');
+            }
+            
+            return data;
+        }
+
+        // 處理 API 錯誤
+        function handleAPIError(error) {
+            console.error('YouTube API 錯誤:', error);
+            
+            // 顯示錯誤訊息
+            const videosGrid = document.getElementById('videosGrid');
+            const videosLoading = document.getElementById('videosLoading');
+            
+            videosLoading.classList.add('hidden');
+            videosGrid.classList.remove('hidden');
+            videosGrid.innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <p class="font-body-lg text-body-lg text-on-surface-variant mb-4">
+                        無法載入影片
+                    </p>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">
+                        影片沒載入請隔天再操作
+                    </p>
+                </div>
+            `;
+        }
+
+        // YouTube RSS Feed 載入函數 (使用代理)
+        async function loadYouTubeRSSFeed() {
+            try {
+                const allVideos = [];
+                
+                // 從所有頻道獲取影片
+                for (const channelId of CHANNEL_IDS) {
+                    // 使用代理服務解決 CORS 問題
+                    const rssUrls = [
+                        `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://www.youtube.com/feed/videos.xml?channel_id=${channelId}`)}`,
+                        `https://cors-anywhere.herokuapp.com/https://www.youtube.com/feed/videos.xml?channel_id=${channelId}`,
+                        `https://www.youtube.com/feed/videos.xml?channel_id=${channelId}`
+                    ];
+                    
+                    let videos = [];
+                    let success = false;
+                    
+                    for (const rssUrl of rssUrls) {
+                        try {
+                            console.log(`嘗試 RSS URL: ${rssUrl}`);
+                            const response = await fetch(rssUrl);
+                            const xmlText = await response.text();
+                            
+                            // 檢查是否為有效的 XML
+                            if (xmlText.includes('<entry>')) {
+                                const parser = new DOMParser();
+                                const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+                                
+                                const entries = xmlDoc.querySelectorAll('entry');
+                                videos = Array.from(entries).slice(0, 3).map(entry => {
+                                    const title = entry.querySelector('title')?.textContent || '';
+                                    const link = entry.querySelector('link')?.getAttribute('href') || '';
+                                    const published = entry.querySelector('published')?.textContent || '';
+                                    const videoId = link.split('v=')[1]?.split('&')[0] || '';
+                                    
+                                    return {
+                                        id: videoId,
+                                        title: title,
+                                        description: title, // RSS 沒有描述，使用標題
+                                        thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+                                        publishedAt: published,
+                                        category: categorizeVideo(title, ''),
+                                        channel: channelId === 'UC6VKHP606ee6ffKwKmBHSig' ? 'loserzun' : 'nerdzun'
+                                    };
+                                });
+                                
+                                success = true;
+                                console.log(`成功從 ${channelId} 獲取 ${videos.length} 個影片`);
+                                break;
+                            } else {
+                                console.log(`無效的 XML 內容: ${xmlText.substring(0, 100)}...`);
+                            }
+                        } catch (error) {
+                            console.log(`RSS URL 失敗: ${rssUrl}`, error);
+                            continue;
+                        }
+                    }
+                    
+                    if (success && videos.length > 0) {
+                        allVideos.push(...videos);
+                    } else {
+                        console.log(`${channelId} 所有 RSS URL 都失敗`);
+                    }
+                }
+                
+                if (allVideos.length > 0) {
+                    // 按發布日期排序
+                    videos = allVideos.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+                    currentVideoCount = videos.length;
+                    displayVideos(videos);
+                    console.log(`總共載入 ${videos.length} 個影片`);
+                } else {
+                    console.log('所有頻道 RSS Feed 都失敗');
+                    handleAPIError(new Error('所有 RSS Feed 都無法訪問'));
+                }
+                
+            } catch (error) {
+                console.error('RSS Feed 載入失敗:', error);
+                handleAPIError(error);
+            }
+        }
+
+        // YouTube API 載入函數 (使用後端 API)
+        async function loadYouTubeVideos() {
+            try {
+                console.log('正在從後端 API 獲取影片...');
+                
+                const data = await callBackendAPI('/youtube/videos', {
+                    maxResults: 6
+                });
+                
+                videos = data.videos;
+                currentVideoCount = videos.length;
+                
+                displayVideos(videos);
+                console.log(`成功載入 ${videos.length} 個影片`);
+                
+            } catch (error) {
+                handleAPIError(error);
+            }
+        }
+
+        // 載入更多影片函數 (YouTube API)
+        async function loadMoreVideos() {
+            try {
+                const allNewVideos = [];
+                
+                // 從所有頻道獲取更多影片（如果有分頁令牌）
+                for (const channelId of CHANNEL_IDS) {
+                    const pageToken = nextPageTokens[channelId];
+                    if (!pageToken) continue; // 如果沒有更多影片，跳過此頻道
+                    
+                    const data = await callYouTubeAPI('search', {
+                        part: 'snippet',
+                        type: 'video',
+                        channelId: channelId,
+                        maxResults: 3,
+                        order: 'date',
+                        pageToken: pageToken
+                    });
+                    
+                    if (data.items) {
+                        // 更新分頁令牌
+                        if (data.nextPageToken) {
+                            nextPageTokens[channelId] = data.nextPageToken;
+                        } else {
+                            delete nextPageTokens[channelId]; // 沒有更多影片了
+                        }
+                        
+                        const channelVideos = data.items.map(item => ({
+                            id: item.id.videoId,
+                            title: item.snippet.title,
+                            description: item.snippet.description,
+                            thumbnail: item.snippet.thumbnails.high.url,
+                            publishedAt: item.snippet.publishedAt,
+                            category: categorizeVideo(item.snippet.title, item.snippet.description),
+                            channel: item.snippet.channelTitle
+                        }));
+                        allNewVideos.push(...channelVideos);
+                    }
+                }
+                
+                if (allNewVideos.length === 0) {
+                    // 可以顯示一個提示訊息
+                    const button = document.querySelector('button[onclick="loadMoreVideos()"]');
+                    if (button) {
+                        button.textContent = '已載入所有影片';
+                        button.disabled = true;
+                    }
+                    return;
+                }
+                
+                // 合併新影片並重新排序
+                videos = [...videos, ...allNewVideos].sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+                currentVideoCount = videos.length;
+                displayVideos(videos);
+                
+            } catch (error) {
+                handleAPIError(error);
+            }
+        }
+
+        function categorizeVideo(title, description) {
+            const text = (title + ' ' + description).toLowerCase();
+            
+            if (text.includes('都市傳說') || text.includes('傳說') || text.includes('怪談') || text.includes('神秘')) {
+                return '都市傳說';
+            } else if (text.includes('實驗') || text.includes('驗證') || text.includes('測試') || text.includes('挑戰')) {
+                return '實驗挑戰';
+            } else if (text.includes('開箱') || text.includes('公仔') || text.includes('pvc') || text.includes('收藏')) {
+                return 'PVC公仔開箱';
+            } else if (text.includes('vlog') || text.includes('日常') || text.includes('生活') || text.includes('廢文')) {
+                return '日常Vlog';
+            } else {
+                return '日常Vlog'; // 預設分類
+            }
+        }
+
+        function displayVideos(videosToShow) {
+            const videosGrid = document.getElementById('videosGrid');
+            const videosLoading = document.getElementById('videosLoading');
+            
+            if (videosToShow.length === 0) {
+                videosLoading.innerHTML = '<p class="text-center text-on-surface-variant col-span-full">沒有找到相關影片</p>';
+                return;
+            }
+            
+            videosLoading.classList.add('hidden');
+            videosGrid.classList.remove('hidden');
+            
+            videosGrid.innerHTML = videosToShow.map(video => `
+                <div class="video-card group" data-category="${video.category}">
+                    <div class="relative overflow-hidden rounded-lg mb-4">
+                        <a href="https://www.youtube.com/watch?v=${video.id}" target="_blank" class="block">
+                            <img src="${video.thumbnail}" alt="${video.title}" class="video-thumbnail w-full h-48 object-cover">
+                            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
+                        </a>
+                    </div>
+                    <div class="space-y-2">
+                        <span class="font-label-caps text-label-caps zun-red">${video.category}</span>
+                        <h3 class="font-headline-md text-headline-md line-clamp-2">
+                            <a href="https://www.youtube.com/watch?v=${video.id}" target="_blank" class="text-on-surface hover:text-primary transition-colors">
+                                ${video.title}
+                            </a>
+                        </h3>
+                        <p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">${video.description}</p>
+                        <div class="flex justify-between items-center">
+                            <p class="font-label-caps text-label-caps text-on-surface-variant">${formatDate(video.publishedAt)}</p>
+                            ${video.channel ? `<span class="font-label-caps text-label-caps text-primary">${video.channel}</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayFallbackVideos() {
+            const videosGrid = document.getElementById('videosGrid');
+            const videosLoading = document.getElementById('videosLoading');
+            
+            // 預設影片內容 - 基於真實頻道描述
+            const fallbackVideos = [
+                {
+                    id: 'dQw4w9WgXcQ',
+                    title: '【都市傳說】探訪台灣神秘景點',
+                    description: '居住在台灣的宅宅少年，因為興趣而開啟了拍影片的生活。',
+                    thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
+                    publishedAt: '2024-03-15T00:00:00Z',
+                    category: '實驗性驗證',
+                    channel: '人生肥宅x尊'
+                },
+                {
+                    id: 'dQw4w9WgXcQ',
+                    title: '【生活 Vlog】宅宅的日常',
+                    description: '偶爾會拍些生活的vlog，想嘗試各式各樣的影片類型。',
+                    thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
+                    publishedAt: '2024-01-20T00:00:00Z',
+                    category: '理性 Vlogs',
+                    channel: '人生肥宅x尊'
+                },
+                {
+                    id: 'dQw4w9WgXcQ',
+                    title: '【PVC公仔開箱】最新收藏展示',
+                    description: 'PVC公仔開箱、日常、廢文，帶給你最日常的影片。',
+                    thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
+                    publishedAt: '2024-02-10T00:00:00Z',
+                    category: '高端開箱',
+                    channel: '人生魯宅x尊-第2頻道'
+                },
+                {
+                    id: 'dQw4w9WgXcQ',
+                    title: '【開箱】最新科技產品評測',
+                    description: '開箱各種有趣產品，分享使用心得。',
+                    thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
+                    publishedAt: '2023-11-08T00:00:00Z',
+                    category: '高端開箱',
+                    channel: '人生肥宅x尊'
+                }
+            ];
+            
+            videos = fallbackVideos;
+            displayVideos(fallbackVideos);
+        }
+
+        
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('zh-TW', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+        }
+
+        // Email Client Function
+        function openEmailClient() {
+            const email = 'just8080666@gmail.com';
+            const subject = '來自個人網站的訊息';
+            const body = '你好人生肥宅x尊，\n\n我想詢問關於...\n\n期待你的回覆！';
+            
+            window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Smooth Scrolling
+        function setupSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        // Close mobile menu if open
+                        document.getElementById('mobileMenu').classList.add('hidden');
+                    }
+                });
+            });
+        }
+
+        // Scroll Animations
+        function setupScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-4');
+                    }
+                });
+            }, observerOptions);
+
+            // Add animation classes to sections
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.add('transition-all', 'duration-1000', 'ease-out', 'opacity-0', 'translate-y-4');
+                observer.observe(section);
+            });
+
+            // Animate video cards on scroll
+            const videoCards = document.querySelectorAll('.video-card');
+            videoCards.forEach((card, index) => {
+                card.style.transitionDelay = `${index * 100}ms`;
+                card.classList.add('transition-all', 'duration-700', 'ease-out', 'opacity-0', 'translate-y-4');
+                observer.observe(card);
+            });
+        }
+    </script>
+</body>
+</html>
